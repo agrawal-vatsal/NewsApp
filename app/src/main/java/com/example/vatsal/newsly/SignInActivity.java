@@ -1,4 +1,4 @@
-package com.example.vatsal.newsly.Activities;
+package com.example.vatsal.newsly;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -55,22 +55,12 @@ public class SignInActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        if (account != null) {
-//            Log.d(TAG, "onCreate: already logged in");
-//            Intent intent = new Intent(SignInActivity.this, LoggedInActivity.class);
-//            intent.putExtra("account", account);
-//            startActivity(intent);
-//        }
         signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = mGoogleSignInClient.getSignInIntent();
-                intent.putExtra(isGoogleAccount, true);
-                startActivityForResult(intent, RC_GOOGLE_SIGN_IN);
-            }
+        signInButton.setOnClickListener((View view) -> {
+            Intent intent = mGoogleSignInClient.getSignInIntent();
+            intent.putExtra(isGoogleAccount, true);
+            startActivityForResult(intent, RC_GOOGLE_SIGN_IN);
         });
 
 

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.vatsal.newsly.Models.Article;
 import com.example.vatsal.newsly.R;
-import com.example.vatsal.newsly.Activities.WebPageActivity;
+import com.example.vatsal.newsly.WebPageActivity;
 
 import java.util.List;
 
@@ -42,24 +42,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .into(holder.imageView);
         showFront(holder);
         holder.description.setText(item.getDescription());
-        holder.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, WebPageActivity.class);
-                intent.putExtra("webPage", item.getUrl());
-                context.startActivity(intent);
-            }
+        holder.button.setOnClickListener((View view) -> {
+            Intent intent = new Intent(context, WebPageActivity.class);
+            intent.putExtra("webPage", item.getUrl());
+            context.startActivity(intent);
+
         });
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.isFront) {
-                    holder.cardView.animate().rotationY(360f).setDuration(500);
-                    showRear(holder);
-                } else {
-                    holder.cardView.animate().rotationY(360f).setDuration(500);
-                    showFront(holder);
-                }
+        holder.cardView.setOnClickListener((View view) -> {
+            if (holder.isFront) {
+                holder.cardView.animate().rotationY(360f).setDuration(500);
+                showRear(holder);
+            } else {
+                holder.cardView.animate().rotationY(360f).setDuration(500);
+                showFront(holder);
             }
         });
 

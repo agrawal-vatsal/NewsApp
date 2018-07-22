@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.vatsal.newsly.Adapters.RecyclerViewAdapter;
+import com.example.vatsal.newsly.Adapters.ViewPagerAdapter;
 import com.example.vatsal.newsly.Models.Article;
 import com.example.vatsal.newsly.Models.Main;
 import com.example.vatsal.newsly.R;
@@ -36,10 +37,8 @@ public class NewsFragment extends Fragment {
     List<Article> list;
     ProgressBar progressBar;
     int index;
-    public static final String TAG = "TAG";
-    public static final String BASE_URL = "https://newsapi.org/v2/";
-    public final String API_KEY = "fc38d9df77174f81be9e0d9bbc2430ce";
-    public final String sources = "abc-news,bbc-sport,bleacher-report,bloomberg,buzzfeed,cnbc,cnn,daily-mail,espn,four-four-two,google-news,mirror,national-geographic,news24,reddit-r-all,techcrunch,the-hindu,the-sport-bible,the-telegraph,the-times-of-india";
+    public static final String API_KEY = "fc38d9df77174f81be9e0d9bbc2430ce";
+    public static final String sources = "abc-news,bbc-sport,bleacher-report,bloomberg,buzzfeed,cnbc,cnn,daily-mail,espn,four-four-two,google-news,mirror,national-geographic,news24,reddit-r-all,techcrunch,the-hindu,the-sport-bible,the-telegraph,the-times-of-india";
 
     public static Fragment getInstance(int position) {
         Bundle bundle = new Bundle();
@@ -86,10 +85,11 @@ public class NewsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Main> call;
-        if (position == 0) {
+        if (ViewPagerAdapter.title[position].equals("Top News")) {
             call = apiService.getTopHeadlines(API_KEY, "en", "popularity", sources, 1, 30);
-        } else if (position == 1) {
+        } else if (ViewPagerAdapter.title[position].equals("National News")) {
             call = apiService.getTopHeadlines(API_KEY, "en", "the-hindu,the-times-of-india", 1, 30);
+//        } else if (ViewPagerAdapter.title[position].equals("International News")){
         } else {
             call = apiService.getTopHeadlines(API_KEY, "en", sources, 1, 30);
         }

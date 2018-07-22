@@ -1,4 +1,4 @@
-package com.example.vatsal.newsly.Activities;
+package com.example.vatsal.newsly;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -57,6 +57,10 @@ public class LoggedInActivity extends AppCompatActivity {
                 else
                     LoginManager.getInstance().logOut();
                 Intent intent = new Intent(LoggedInActivity.this, SignInActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.search:
+                intent = new Intent(LoggedInActivity.this, CustomSearchFormActivity.class);
                 startActivity(intent);
                 return true;
             default:

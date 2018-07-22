@@ -4,5 +4,9 @@
     <item
         android:id="@+id/sign_out_menu"
         android:title="@string/sign_out"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/search"
+        android:title="Search"
+        app:showAsAction="never" />
 </menu>

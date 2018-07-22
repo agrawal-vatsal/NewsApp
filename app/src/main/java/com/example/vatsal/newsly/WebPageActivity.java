@@ -1,4 +1,4 @@
-package com.example.vatsal.newsly.Activities;
+package com.example.vatsal.newsly;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

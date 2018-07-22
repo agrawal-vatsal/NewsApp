@@ -10,10 +10,10 @@ import retrofit2.http.Query;
 public interface ApiInterface {
     @GET("everything")
     Call<Main> getTopHeadlines(@Query("apiKey") String apiKey,
-                            @Query("language") String lan,
-                            @Query("sources") String sources,
-                            @Query("page") Integer page,
-                            @Query("pageSize") Integer pageSize);
+                               @Query("language") String lan,
+                               @Query("sources") String sources,
+                               @Query("page") Integer page,
+                               @Query("pageSize") Integer pageSize);
 
     @GET("everything")
     Call<Main> getTopHeadlines(@Query("apiKey") String apiKey,
@@ -23,12 +23,24 @@ public interface ApiInterface {
                                @Query("page") Integer page,
                                @Query("pageSize") Integer pageSize);
 
-//    @GET("everything")
-//    Call<Main> getTopHeadlines(@Query("apiKey") String apiKey,
-//                               @Query("language") String lan,
-//                               @Query("sources") String sources,
-//                               @Query("page") Integer page,
-//                               @Query("pageSize") Integer pageSize,
-//                               @Query("country") String country);
+    @GET("everything")
+    Call<Main> getTopHeadlines(@Query("apiKey") String apiKey,
+                               @Query("language") String lan,
+                               @Query("sortBy") String sortBy,
+                               @Query("sources") String sources,
+                               @Query("from") String fromDate,
+                               @Query("to") String toDate,
+                               @Query("page") Integer page,
+                               @Query("pageSize") Integer pageSize);
+
+    @GET("everything")
+    Call<Main> getTopHeadlines(@Query("apiKey") String apiKey,
+                               @Query("language") String lan,
+                               @Query("sortBy") String sortBy,
+                               @Query("from") String fromDate,
+                               @Query("to") String toDate,
+                               @Query("page") Integer page,
+                               @Query("pageSize") Integer pageSize,
+                               @Query("q") String query);
 
 }

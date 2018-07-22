@@ -11,14 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.SignInActivity">
+        <activity android:name=".SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.LoggedInActivity" />
+        <activity android:name=".LoggedInActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -40,7 +40,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.WebPageActivity"></activity>
+        <activity android:name=".WebPageActivity" />
+        <activity android:name=".CustomSearchFormActivity" />
+        <activity android:name=".CustomNewsActivity"></activity>
     </application>
 
 </manifest>
