@@ -44,7 +44,6 @@ public class CustomNewsActivity extends AppCompatActivity {
             public void onResponse(Response<Main> response) {
                 if (response.body() != null) {
                     dataset = response.body().getArticles();
-                    Log.d(TAG, "onResponse: " + dataset.size());
                     adapter = new RecyclerViewAdapter(dataset, getApplicationContext());
                     recyclerView.setAdapter(adapter);
                     index = 2;

@@ -59,6 +59,7 @@
                 android:layout_alignParentTop="true"
                 android:alpha="0"
                 android:text="TextView" />
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

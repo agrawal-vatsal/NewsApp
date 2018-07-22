@@ -1,5 +1,6 @@
 package com.example.vatsal.newsly.Fragments;
 
+import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 
 import com.example.vatsal.newsly.Adapters.RecyclerViewAdapter;
 import com.example.vatsal.newsly.Adapters.ViewPagerAdapter;
+import com.example.vatsal.newsly.DatabaseOperations.AppDatabase;
 import com.example.vatsal.newsly.Models.Article;
 import com.example.vatsal.newsly.Models.Main;
 import com.example.vatsal.newsly.R;
