@@ -1,6 +1,5 @@
 package com.example.vatsal.newsly.Fragments;
 
-import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,9 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.example.vatsal.newsly.Adapters.RecyclerViewAdapter;
+import com.example.vatsal.newsly.Adapters.UnsavedPostsRecyclerViewAdapter;
 import com.example.vatsal.newsly.Adapters.ViewPagerAdapter;
-import com.example.vatsal.newsly.DatabaseOperations.AppDatabase;
 import com.example.vatsal.newsly.Models.Article;
 import com.example.vatsal.newsly.Models.Main;
 import com.example.vatsal.newsly.R;
@@ -34,7 +32,7 @@ public class NewsFragment extends Fragment {
     int position;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    RecyclerViewAdapter adapter;
+    UnsavedPostsRecyclerViewAdapter adapter;
     ApiInterface apiService;
     List<Article> list;
     ProgressBar progressBar;
@@ -66,10 +64,12 @@ public class NewsFragment extends Fragment {
     Callback<Main> callback = new Callback<Main>() {
         @Override
         public void onResponse(Call<Main> call, Response<Main> response) {
-            list = response.body().getArticles();
-            adapter = new RecyclerViewAdapter(list, getContext());
-            recyclerView.setAdapter(adapter);
-            progressBar.setAlpha(0f);
+            if (response.body() != null) {
+                list = response.body().getArticles();
+                adapter = new UnsavedPostsRecyclerViewAdapter(list, getContext());
+                recyclerView.setAdapter(adapter);
+                progressBar.setAlpha(0f);
+            }
         }
 
         @Override
@@ -87,13 +87,16 @@ public class NewsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<Main> call;
-        if (ViewPagerAdapter.title[position].equals("Top News")) {
-            call = apiService.getTopHeadlines(API_KEY, "en", "popularity", sources, 1, 30);
-        } else if (ViewPagerAdapter.title[position].equals("National News")) {
-            call = apiService.getTopHeadlines(API_KEY, "en", "the-hindu,the-times-of-india", 1, 30);
-//        } else if (ViewPagerAdapter.title[position].equals("International News")){
-        } else {
-            call = apiService.getTopHeadlines(API_KEY, "en", sources, 1, 30);
+        switch (ViewPagerAdapter.title[position]) {
+            case "Top News":
+                call = apiService.getTopHeadlines(API_KEY, "en", "popularity", sources, 1, 30);
+                break;
+            case "National News":
+                call = apiService.getTopHeadlines(API_KEY, "en", "the-hindu,the-times-of-india", 1, 30);
+                break;
+            default:
+                call = apiService.getTopHeadlines(API_KEY, "en", sources, 1, 30);
+                break;
         }
         call.enqueue(callback);
         index = 1;
@@ -110,9 +113,12 @@ public class NewsFragment extends Fragment {
     Callback<Main> callback1 = new Callback<Main>() {
         @Override
         public void onResponse(Call<Main> call, Response<Main> response) {
-            List<Article> articles = response.body().getArticles();
-            list.addAll(articles);
-            adapter.notifyDataSetChanged();
+            if (response.body() != null) {
+                List<Article> articles = response.body().getArticles();
+                list.addAll(articles);
+                adapter.notifyDataSetChanged();
+            }
+
         }
 
         @Override

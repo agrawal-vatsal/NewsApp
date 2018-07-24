@@ -5,11 +5,9 @@ import android.content.pm.ActivityInfo;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.vatsal.newsly.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -25,14 +23,13 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public class SignInActivity extends AppCompatActivity {
 
     private static final int RC_GOOGLE_SIGN_IN = 1;
     static GoogleSignInClient mGoogleSignInClient;
     SignInButton signInButton;
-    public static final String TAG = "TAG";
     CallbackManager callbackManager;
     static LoginButton loginButton;
     private static final String EMAIL = "email";
@@ -71,7 +68,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
         loginButton = findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList(EMAIL));
+        loginButton.setReadPermissions(Collections.singletonList(EMAIL));
         // If you are using in a fragment, call loginButton.setFragment(this);
 
         // Callback registration
@@ -107,8 +104,6 @@ public class SignInActivity extends AppCompatActivity {
                 sendToSecondActivity(true);
                 return;
             } catch (ApiException e) {
-                Log.d(TAG, "onActivityResult: " + e.getStatusCode() + " " + e.getLocalizedMessage());
-                Toast.makeText(SignInActivity.this, e.getLocalizedMessage() + e.getStatusCode(), Toast.LENGTH_LONG).show();
             }
 
         }

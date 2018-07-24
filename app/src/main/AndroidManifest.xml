@@ -42,7 +42,8 @@
         </activity>
         <activity android:name=".WebPageActivity" />
         <activity android:name=".CustomSearchFormActivity" />
-        <activity android:name=".CustomNewsActivity"></activity>
+        <activity android:name=".CustomNewsActivity" />
+        <activity android:name=".SavedNewsActivity"></activity>
     </application>
 
 </manifest>

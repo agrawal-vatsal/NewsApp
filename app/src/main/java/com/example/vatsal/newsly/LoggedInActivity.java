@@ -63,6 +63,9 @@ public class LoggedInActivity extends AppCompatActivity {
                 intent = new Intent(LoggedInActivity.this, CustomSearchFormActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.savedNews:
+                intent = new Intent(LoggedInActivity.this, SavedNewsActivity.class);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }

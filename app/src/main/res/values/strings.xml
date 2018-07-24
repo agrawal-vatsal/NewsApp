@@ -5,6 +5,8 @@
     <string name="fb_login_protocol_scheme">fb1875749169153153</string>
     <string name="query">Query</string>
     <string name="language">Language</string>
+    <string name="saved_posts">Saved Posts</string>
+    <string name="search">Search</string>
     <string-array name="languages">
         <item>Arabic</item>
         <item>German</item>

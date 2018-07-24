@@ -5,21 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ProgressBar;
 
-import com.example.vatsal.newsly.Adapters.RecyclerViewAdapter;
-import com.example.vatsal.newsly.Fragments.NewsFragment;
+import com.example.vatsal.newsly.Adapters.UnsavedPostsRecyclerViewAdapter;
 import com.example.vatsal.newsly.Models.Article;
 import com.example.vatsal.newsly.Models.Main;
-import com.example.vatsal.newsly.api.ApiClient;
-import com.example.vatsal.newsly.api.ApiInterface;
 import com.example.vatsal.newsly.api.CustomCall;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CustomNewsActivity extends AppCompatActivity {
@@ -27,7 +21,7 @@ public class CustomNewsActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     List<Article> dataset;
     public static int index = 1;
-    RecyclerViewAdapter adapter;
+    UnsavedPostsRecyclerViewAdapter adapter;
     CustomCall initialCall;
     CustomCall laterCall;
     ProgressBar progressBar;
@@ -44,7 +38,7 @@ public class CustomNewsActivity extends AppCompatActivity {
             public void onResponse(Response<Main> response) {
                 if (response.body() != null) {
                     dataset = response.body().getArticles();
-                    adapter = new RecyclerViewAdapter(dataset, getApplicationContext());
+                    adapter = new UnsavedPostsRecyclerViewAdapter(dataset, getApplicationContext());
                     recyclerView.setAdapter(adapter);
                     index = 2;
                     progressBar.setAlpha(0);
