@@ -5,7 +5,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity
-public class ArticleDB {
+public class ArticleDB extends ArticleInterface {
 
     @PrimaryKey
     @NonNull
@@ -22,5 +22,25 @@ public class ArticleDB {
         this.description = description;
         this.url = url;
         this.urlToImage = urlToImage;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public String getUrlToImage() {
+        return urlToImage;
     }
 }

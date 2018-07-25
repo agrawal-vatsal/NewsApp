@@ -10,6 +10,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.example.vatsal.newsly.Models.Article;
 import com.example.vatsal.newsly.Models.ArticleDB;
+import com.example.vatsal.newsly.Models.ArticleInterface;
 import com.example.vatsal.newsly.WebPageActivity;
 
 import java.util.ArrayList;
@@ -19,14 +20,9 @@ import java.util.List;
 public class UnsavedPostsRecyclerViewAdapter extends RecyclerViewAdapter<Article> {
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
-        final Article item = dataset.get(position);
-        puttingDataOnCard(holder,
-                item.getTitle(),
-                item.getDescription(),
-                item.getUrl(),
-                item.getUrlToImage());
-        handleCardFlip(holder);
+    public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        Article item = dataset.get(position);
         holder.cardView.setOnLongClickListener((View view) -> {
             boolean isInDb = checkItem(item.getTitle());
             String message = "Are you sure you want to " + (isInDb ? "delete" : "save") + " this post?";
