@@ -15,7 +15,6 @@ public class SavedPostsRecyclerViewAdapter extends RecyclerViewAdapter<ArticleDB
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        ArticleDB item = dataset.get(position);
         holder.cardView.setOnLongClickListener((View view) -> {
             new AlertDialog.Builder(context)
                     .setIcon(android.R.drawable.ic_dialog_alert)
