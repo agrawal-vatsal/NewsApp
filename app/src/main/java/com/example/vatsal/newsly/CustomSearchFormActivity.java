@@ -1,5 +1,6 @@
 package com.example.vatsal.newsly;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class CustomSearchFormActivity extends AppCompatActivity {
     public static class fromDatePickerFragment extends DatePickerFragment {
+        @SuppressLint("DefaultLocale")
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int date) {
             fromDate = String.format("%d-%d-%d", year, month, date);
@@ -27,6 +29,7 @@ public class CustomSearchFormActivity extends AppCompatActivity {
     }
 
     public static class toDatePickerFragment extends DatePickerFragment {
+        @SuppressLint("DefaultLocale")
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int date) {
             toDate = String.format("%d-%d-%d", year, month, date);

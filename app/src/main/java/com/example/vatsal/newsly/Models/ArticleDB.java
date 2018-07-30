@@ -17,13 +17,14 @@ public class ArticleDB extends ArticleInterface {
 
     public String urlToImage;
 
-    public ArticleDB(String title, String description, String url, String urlToImage) {
+    public ArticleDB(@NonNull String title, String description, String url, String urlToImage) {
         this.title = title;
         this.description = description;
         this.url = url;
         this.urlToImage = urlToImage;
     }
 
+    @NonNull
     @Override
     public String getTitle() {
         return title;

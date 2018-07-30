@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.example.vatsal.newsly.Adapters.UnsavedPostsRecyclerViewAdapter;
+import com.example.vatsal.newsly.Adapters.RecyclerViewAdapter;
 import com.example.vatsal.newsly.Adapters.ViewPagerAdapter;
 import com.example.vatsal.newsly.Models.Article;
 import com.example.vatsal.newsly.Models.Main;
@@ -20,7 +20,10 @@ import com.example.vatsal.newsly.api.ApiClient;
 import com.example.vatsal.newsly.api.ApiInterface;
 
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,17 +35,24 @@ public class NewsFragment extends Fragment {
     int position;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    UnsavedPostsRecyclerViewAdapter adapter;
+    RecyclerViewAdapter<Article> adapter;
     ApiInterface apiService;
     List<Article> list;
     ProgressBar progressBar;
     int index;
+    Map<String, Integer> categoriesMap;
+    List<String> categories;
     public static final String API_KEY = "fc38d9df77174f81be9e0d9bbc2430ce";
     public static final String sources = "abc-news,bbc-sport,bleacher-report,bloomberg,buzzfeed,cnbc,cnn,daily-mail,espn,four-four-two,google-news,mirror,national-geographic,news24,reddit-r-all,techcrunch,the-hindu,the-sport-bible,the-telegraph,the-times-of-india";
 
     public static Fragment getInstance(int position) {
         Bundle bundle = new Bundle();
         bundle.putInt("pos", position);
+        if (position == 0) {
+            PersonalisedNewsFragment newsFragment = new PersonalisedNewsFragment();
+            newsFragment.setArguments(bundle);
+            return newsFragment;
+        }
         NewsFragment newsFragment = new NewsFragment();
         newsFragment.setArguments(bundle);
         return newsFragment;
@@ -66,7 +76,7 @@ public class NewsFragment extends Fragment {
         public void onResponse(Call<Main> call, Response<Main> response) {
             if (response.body() != null) {
                 list = response.body().getArticles();
-                adapter = new UnsavedPostsRecyclerViewAdapter(list, getContext());
+                adapter = new RecyclerViewAdapter<>(list, getContext());
                 recyclerView.setAdapter(adapter);
                 progressBar.setAlpha(0f);
             }
@@ -86,13 +96,14 @@ public class NewsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         apiService = ApiClient.getClient().create(ApiInterface.class);
+        categories = Arrays.asList(getContext().getResources().getStringArray(R.array.categories));
+        categoriesMap = new HashMap<>();
+        for (String category : categories)
+            categoriesMap.put(category, 1);
         Call<Main> call;
         switch (ViewPagerAdapter.title[position]) {
             case "Top News":
                 call = apiService.getTopHeadlines(API_KEY, "en", "popularity", sources, 1, 30);
-                break;
-            case "National News":
-                call = apiService.getTopHeadlines(API_KEY, "en", "the-hindu,the-times-of-india", 1, 30);
                 break;
             default:
                 call = apiService.getTopHeadlines(API_KEY, "en", sources, 1, 30);
@@ -129,13 +140,12 @@ public class NewsFragment extends Fragment {
 
     private void onScrolledToBottom() {
         Call<Main> call;
-        if (position == 0) {
+        if (position == 1) {
             call = apiService.getTopHeadlines(API_KEY, "en", "popularity", sources, ++index, 30);
-        } else if (position == 1) {
-            call = apiService.getTopHeadlines(API_KEY, "en", "the-hindu,the-times-of-india", ++index, 30);
         } else {
             call = apiService.getTopHeadlines(API_KEY, "en", sources, ++index, 30);
         }
         call.enqueue(callback1);
     }
+
 }

@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ProgressBar;
 
-import com.example.vatsal.newsly.Adapters.UnsavedPostsRecyclerViewAdapter;
+import com.example.vatsal.newsly.Adapters.RecyclerViewAdapter;
 import com.example.vatsal.newsly.Models.Article;
 import com.example.vatsal.newsly.Models.Main;
 import com.example.vatsal.newsly.api.CustomCall;
@@ -21,7 +21,7 @@ public class CustomNewsActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     List<Article> dataset;
     public static int index = 1;
-    UnsavedPostsRecyclerViewAdapter adapter;
+    RecyclerViewAdapter<Article> adapter;
     CustomCall initialCall;
     CustomCall laterCall;
     ProgressBar progressBar;
@@ -38,7 +38,7 @@ public class CustomNewsActivity extends AppCompatActivity {
             public void onResponse(Response<Main> response) {
                 if (response.body() != null) {
                     dataset = response.body().getArticles();
-                    adapter = new UnsavedPostsRecyclerViewAdapter(dataset, getApplicationContext());
+                    adapter = new RecyclerViewAdapter<>(dataset, getApplicationContext());
                     recyclerView.setAdapter(adapter);
                     index = 2;
                     progressBar.setAlpha(0);

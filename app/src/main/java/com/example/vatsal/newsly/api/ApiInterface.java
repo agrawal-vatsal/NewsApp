@@ -43,4 +43,10 @@ public interface ApiInterface {
                                @Query("pageSize") Integer pageSize,
                                @Query("q") String query);
 
+    @GET("top-headlines")
+    Call<Main> getTopHeadlines(@Query("apiKey") String apiKey,
+                               @Query("category") String category,
+                               @Query("page") Integer page,
+                               @Query("pageSize") Integer pageSize);
+
 }

@@ -1,12 +1,12 @@
 package com.example.vatsal.newsly.Adapters;
 
-import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,10 +24,7 @@ import com.example.vatsal.newsly.Models.ArticleDB;
 import com.example.vatsal.newsly.Models.ArticleInterface;
 import com.example.vatsal.newsly.R;
 import com.example.vatsal.newsly.WebPageActivity;
-import com.example.vatsal.newsly.api.ApiInterface;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,7 +33,7 @@ public class RecyclerViewAdapter<T extends ArticleInterface> extends RecyclerVie
     Context context;
     AppDatabase db;
     List<T> dataset;
-    TextToSpeech tts;
+    private TextToSpeech tts;
 
     @NonNull
     @Override
@@ -75,11 +72,11 @@ public class RecyclerViewAdapter<T extends ArticleInterface> extends RecyclerVie
         }
     }
 
-    protected void setDb() {
+    void setDb() {
         db = DatabaseInstance.getInstance(context);
     }
 
-    protected void showRear(ViewHolder holder) {
+    private void showRear(ViewHolder holder) {
         holder.isFront = false;
         holder.textView.setAlpha(0);
         holder.imageView.setAlpha(0f);
@@ -90,7 +87,7 @@ public class RecyclerViewAdapter<T extends ArticleInterface> extends RecyclerVie
         holder.speakButton.setAlpha(1f);
     }
 
-    protected void showFront(ViewHolder holder) {
+    private void showFront(ViewHolder holder) {
         holder.isFront = true;
         holder.textView.setAlpha(1f);
         holder.imageView.setAlpha(1f);
@@ -101,21 +98,28 @@ public class RecyclerViewAdapter<T extends ArticleInterface> extends RecyclerVie
         holder.speakButton.setAlpha(0);
     }
 
-    void puttingDataOnCard(ViewHolder holder, T item) {
+    private void puttingDataOnCard(ViewHolder holder, T item) {
         holder.textView.setText(item.getTitle());
         Glide.with(context)
                 .load(item.getUrlToImage())
                 .into(holder.imageView);
         showFront(holder);
         holder.description.setText(item.getDescription());
+    }
+
+    public void handleReadFull(ViewHolder holder, T item) {
         holder.readFull.setOnClickListener((View view) -> {
-            Intent intent = new Intent(context, WebPageActivity.class);
-            intent.putExtra("webPage", item.getUrl());
-            context.startActivity(intent);
+            handleClickOnReadFull(item);
         });
     }
 
-    void handleCardFlip(ViewHolder holder) {
+    public void handleClickOnReadFull(T item) {
+        Intent intent = new Intent(context, WebPageActivity.class);
+        intent.putExtra("webPage", item.getUrl());
+        context.startActivity(intent);
+    }
+
+    private void handleCardFlip(ViewHolder holder) {
         holder.cardView.setOnClickListener((View view) -> {
             if (holder.isFront) {
                 holder.cardView.animate().rotationY(360f).setDuration(500);
@@ -132,7 +136,20 @@ public class RecyclerViewAdapter<T extends ArticleInterface> extends RecyclerVie
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
         T article = dataset.get(position);
         puttingDataOnCard(holder, article);
+        handleReadFull(holder, article);
         handleCardFlip(holder);
+        handleCardViewLongClick(holder, position);
+        handleSpeakButton(holder, article);
+    }
+
+    private void playNextChunk(String text) {
+        String utteranceId = this.hashCode() + "";
+        Bundle params = new Bundle();
+        params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId);
+    }
+
+    private void handleSpeakButton(ViewHolder holder, T article) {
         holder.speakButton.setOnClickListener((View view) -> {
             if (tts != null) {
                 tts.stop();
@@ -151,11 +168,39 @@ public class RecyclerViewAdapter<T extends ArticleInterface> extends RecyclerVie
         });
     }
 
-    private void playNextChunk(String text) {
-        String utteranceId = this.hashCode() + "";
-        Bundle params = new Bundle();
-        params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "");
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId);
+    public void handleCardViewLongClick(ViewHolder holder, int position) {
+        T item = dataset.get(position);
+        holder.cardView.setOnLongClickListener((View view) -> {
+            boolean isInDb = checkItem(item.getTitle());
+            String message = "Are you sure you want to " + (isInDb ? "delete" : "save") + " this post?";
+            new AlertDialog.Builder(context)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Are you sure?")
+                    .setMessage(message)
+                    .setPositiveButton("Yes", (DialogInterface dialogInterface, int i) -> {
+                        ArticleDB article = new ArticleDB(item.getTitle(), item.getDescription(), item.getUrl(), item.getUrlToImage());
+                        if (isInDb)
+                            db.articleDao().deleteArticle(article);
+                        else
+                            db.articleDao().insertArticle(article);
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
+            return true;
+        });
     }
 
+    private boolean checkItem(String title) {
+        return db.articleDao().getArticle(title).length != 0;
+    }
+
+    public RecyclerViewAdapter(List<T> dataset, Context context) {
+        this.dataset = dataset;
+        this.context = context;
+        setDb();
+    }
+
+    RecyclerViewAdapter(Context context) {
+        this.context = context;
+    }
 }

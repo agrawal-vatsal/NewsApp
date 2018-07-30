@@ -1,6 +1,5 @@
 package com.example.vatsal.newsly.api;
 
-import android.util.Log;
 
 import com.example.vatsal.newsly.CustomNewsActivity;
 import com.example.vatsal.newsly.CustomSearchFormActivity;
@@ -13,7 +12,7 @@ import retrofit2.Response;
 
 public abstract class CustomCall {
 
-    public CustomCall() {
+    protected CustomCall() {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<Main> call;
         if (CustomSearchFormActivity.query.equals(""))

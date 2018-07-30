@@ -1,5 +1,6 @@
 package com.example.vatsal.newsly;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ import java.util.Collections;
 public class SignInActivity extends AppCompatActivity {
 
     private static final int RC_GOOGLE_SIGN_IN = 1;
+    @SuppressLint("StaticFieldLeak")
     static GoogleSignInClient mGoogleSignInClient;
     SignInButton signInButton;
     CallbackManager callbackManager;
@@ -39,7 +41,6 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         callbackManager = CallbackManager.Factory.create();
-        FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 

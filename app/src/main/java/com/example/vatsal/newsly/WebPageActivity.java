@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-import com.example.vatsal.newsly.R;
 
 public class WebPageActivity extends AppCompatActivity {
     WebView webView;

@@ -13,8 +13,7 @@ import java.util.Arrays;
 public class SavedPostsRecyclerViewAdapter extends RecyclerViewAdapter<ArticleDB> {
 
     @Override
-    public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
+    public void handleCardViewLongClick(ViewHolder holder, int position) {
         holder.cardView.setOnLongClickListener((View view) -> {
             new AlertDialog.Builder(context)
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -31,8 +30,9 @@ public class SavedPostsRecyclerViewAdapter extends RecyclerViewAdapter<ArticleDB
         });
     }
 
+
     public SavedPostsRecyclerViewAdapter(Context context) {
-        this.context = context;
+        super(context);
         setDb();
         dataset = new ArrayList<>(Arrays.asList(db.articleDao().getArticles()));
     }

@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.vatsal.newsly.Adapters.ViewPagerAdapter;
-import com.example.vatsal.newsly.R;
 import com.facebook.login.LoginManager;
 
 

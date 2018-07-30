@@ -1,10 +1,5 @@
 package com.example.vatsal.newsly.Models;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
-import com.example.vatsal.newsly.api.ApiInterface;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
