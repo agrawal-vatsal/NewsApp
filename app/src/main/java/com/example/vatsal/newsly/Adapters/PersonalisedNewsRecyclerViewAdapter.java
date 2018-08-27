@@ -3,7 +3,7 @@ package com.example.vatsal.newsly.Adapters;
 import android.content.Context;
 
 import com.example.vatsal.newsly.Models.PersonalisedArticle;
-import com.example.vatsal.newsly.ThompsonSampling;
+import com.example.vatsal.newsly.ThompsonSampling.ThompsonSampling;
 
 import java.util.List;
 

@@ -1,8 +1,9 @@
-package com.example.vatsal.newsly;
+package com.example.vatsal.newsly.ThompsonSampling;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
+
+import com.example.vatsal.newsly.R;
 
 import org.apache.commons.math3.distribution.BetaDistribution;
 import org.apache.commons.math3.random.MersenneTwister;
@@ -14,12 +15,10 @@ import java.util.List;
 
 public class ThompsonSampling {
     private SharedPreferences sharedPreferences;
-    static List<String> categories;
+    private static List<String> categories;
     private static final RandomGenerator THREADSAFE_RANDOMNUMBER_GENERATOR = new SynchronizedRandomGenerator(new MersenneTwister());
-    private Context context;
 
     public ThompsonSampling(Context context) {
-        this.context = context;
         sharedPreferences = context.getSharedPreferences("app_data", Context.MODE_PRIVATE);
         if (categories == null)
             categories = Arrays.asList(context.getResources().getStringArray(R.array.categories));
@@ -28,7 +27,6 @@ public class ThompsonSampling {
     public void clicked(String title) {
         int currentZero = sharedPreferences.getInt(title + "_zero", 0);
         int currentOne = sharedPreferences.getInt(title + "_one", 0);
-        Toast.makeText(context, "clicked " + title, Toast.LENGTH_SHORT).show();
         if (currentZero == 0)
             return;
         sharedPreferences.edit().putInt(title + "_zero", currentZero - 1).apply();
@@ -37,7 +35,6 @@ public class ThompsonSampling {
 
     public void addZeroes(String title, int pageSize) {
         sharedPreferences.edit().putInt(title + "_zero", sharedPreferences.getInt(title + "_zero", 0) + pageSize).apply();
-        Toast.makeText(context, "zeroes added" + title, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -63,7 +60,6 @@ public class ThompsonSampling {
                 bestTitle = title;
             }
         }
-        Toast.makeText(context, "Best category is" + bestTitle, Toast.LENGTH_SHORT).show();
         return bestTitle;
     }
 }

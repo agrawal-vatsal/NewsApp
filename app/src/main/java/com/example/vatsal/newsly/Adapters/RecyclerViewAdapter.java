@@ -107,10 +107,8 @@ public class RecyclerViewAdapter<T extends ArticleInterface> extends RecyclerVie
         holder.description.setText(item.getDescription());
     }
 
-    public void handleReadFull(ViewHolder holder, T item) {
-        holder.readFull.setOnClickListener((View view) -> {
-            handleClickOnReadFull(item);
-        });
+    private void handleReadFull(ViewHolder holder, T item) {
+        holder.readFull.setOnClickListener((View view) -> handleClickOnReadFull(item));
     }
 
     public void handleClickOnReadFull(T item) {

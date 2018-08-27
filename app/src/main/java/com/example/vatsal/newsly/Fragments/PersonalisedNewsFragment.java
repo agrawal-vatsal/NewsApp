@@ -16,7 +16,7 @@ import com.example.vatsal.newsly.Models.Article;
 import com.example.vatsal.newsly.Models.Main;
 import com.example.vatsal.newsly.Models.PersonalisedArticle;
 import com.example.vatsal.newsly.R;
-import com.example.vatsal.newsly.ThompsonSampling;
+import com.example.vatsal.newsly.ThompsonSampling.ThompsonSampling;
 import com.example.vatsal.newsly.api.ApiClient;
 import com.example.vatsal.newsly.api.ApiInterface;
 
@@ -59,6 +59,7 @@ public class PersonalisedNewsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         progressBar = view.findViewById(R.id.progress_bar);
         apiService = ApiClient.getClient().create(ApiInterface.class);
+        progressBar.setAlpha(1f);
         categoriesMap = new HashMap<>();
         categories = Arrays.asList(getContext().getResources().getStringArray(R.array.categories));
         for (String category : categories)

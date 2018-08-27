@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,7 +61,9 @@ public class NewsFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt("pos");
+        if (getArguments() != null) {
+            position = getArguments().getInt("pos");
+        }
     }
 
     @Nullable
@@ -96,7 +99,7 @@ public class NewsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         apiService = ApiClient.getClient().create(ApiInterface.class);
-        categories = Arrays.asList(getContext().getResources().getStringArray(R.array.categories));
+        categories = Arrays.asList(Objects.requireNonNull(getContext()).getResources().getStringArray(R.array.categories));
         categoriesMap = new HashMap<>();
         for (String category : categories)
             categoriesMap.put(category, 1);
